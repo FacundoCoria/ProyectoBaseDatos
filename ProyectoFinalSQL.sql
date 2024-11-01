@@ -61,3 +61,17 @@ CREATE TABLE alumno_clase (
     FOREIGN KEY (ci_alumno) REFERENCES alumnos(ci),
     FOREIGN KEY (id_equipamiento) REFERENCES equipamiento(id)
 );
+
+ALTER TABLE clase
+ADD CONSTRAINT unique_instructor_turno UNIQUE (ci_instructor, id_turno);
+
+ALTER TABLE login ADD COLUMN rol ENUM('administrador', 'instructor', 'estudiante') NOT NULL;
+ALTER TABLE login ADD COLUMN ci CHAR(8) NOT NULL;
+
+INSERT INTO actividades (descripcion, costo)
+VALUES ('snowboard', 250),
+    ('ski', 300),
+    ('moto de nieve', 500);
+
+Delete from instructores;
+Delete from login;
