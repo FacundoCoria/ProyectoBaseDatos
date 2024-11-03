@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Iniciar Sesión</h1>
+    <form method="post" action="{{ url_for('auth.login') }}">
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" required>
+
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" name="contraseña" required>
+
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+
+    <!-- Enlace a la página de registro -->
+    <p>¿No tienes una cuenta? <a href="{{ url_for('auth.register') }}">Registrarse</a></p>
+</body>
+</html>
