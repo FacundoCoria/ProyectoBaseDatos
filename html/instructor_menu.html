@@ -1,41 +1,114 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú Instructor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <h2>Menú del Instructor</h2>
-    <p><a href="{{ url_for('instructor.registrar_instructor_route') }}">Registrar Información</a></p>
-    <form action="{{ url_for('instructor.eliminar_instructor_route') }}" method="POST">
-        <h3>Eliminar Instructor</h3>
-        <label for="ci">Cédula:</label>
-        <input type="text" id="ci" name="ci" required>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
-        <button type="submit">Eliminar</button>
-    </form>
+    <div class="container mt-4">
+        <h2>Menú Instructor</h2>
+        <!-- Botón para abrir el modal de registro -->
+        <button class="btn btn-primary" data-toggle="modal" data-target="#registrarModal">Registrar Instructor</button>
+        <!-- Botón para abrir el modal de eliminación -->
+        <button class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal">Eliminar Instructor</button>
 
-    <form action="{{ url_for('instructor.anotarse_clase') }}" method="POST">
-        <h3>Anotarse a una Clase</h3>
-        <label for="clase">Nombre de la Clase:</label>
-        <input type="text" id="clase" name="clase" required>
-        <button type="submit">Anotarse</button>
-    </form>
+        <!-- Modal para registrar instructor -->
+        <div class="modal fade" id="registrarModal" tabindex="-1" aria-labelledby="registrarModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registrarModalLabel">Registrar Instructor</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('instructor.registrar_instructor_route') }}" method="POST" id="registrarForm">
+                            <div class="form-group">
+                                <label for="ci">Cédula:</label>
+                                <input type="text" class="form-control" id="ci" name="ci" required>
+                                <div id="ciError" class="text-danger" style="display:none;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="apellido">Apellido:</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Mostrar mensajes de flash -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+        <!-- Modal para eliminar instructor -->
+        <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="eliminarModalLabel">Eliminar Instructor</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ url_for('instructor.eliminar_instructor_route') }}" method="POST">
+                            <div class="form-group">
+                                <label for="ci_eliminar">Cédula:</label>
+                                <input type="text" class="form-control" id="ci_eliminar" name="ci" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nombre_eliminar">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre_eliminar" name="nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="apellido_eliminar">Apellido:</label>
+                                <input type="text" class="form-control" id="apellido_eliminar" name="apellido" required>
+                            </div>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mensajes flash -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info mt-3">
+                    {% for message in messages %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#registrarForm').on('submit', function(event) {
+                event.preventDefault(); // Previene el envío del formulario
+                const ci = $('#ci').val();
+                const ciError = $('#ciError');
+
+                // Valida la cédula
+                if (ci.length !== 8 || isNaN(ci)) {
+                    ciError.text("La cédula debe tener exactamente 8 dígitos numéricos.").show();
+                } else {
+                    ciError.hide();
+                    // Si la cédula es válida, envía el formulario
+                    this.submit();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
