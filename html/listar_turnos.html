@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Turnos</title>
+</head>
+<body>
+    <h2>Lista de Turnos</h2>
+    <a href="{{ url_for('turno.alta_turno_form') }}">Agregar Nuevo Turno</a>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Hora de Inicio</th>
+            <th>Hora de Fin</th>
+            <th>Acciones</th>
+        </tr>
+        {% for turno in turnos %}
+        <tr>
+            <td>{{ turno[0] }}</td>
+            <td>{{ turno[1] }}</td>
+            <td>{{ turno[2] }}</td>
+            <td>
+                <a href="{{ url_for('turno.modificar_turno_form', id_turno=turno[0]) }}">Modificar</a> |
+                <form action="{{ url_for('turno.eliminar_turno', id_turno=turno[0]) }}" method="POST" style="display:inline;">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('instructor.instructor_menu') }}">Volver al Menú Principal</a>
+</body>
+</html>
