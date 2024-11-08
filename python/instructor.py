@@ -5,6 +5,45 @@ from mysql.connector import Error
 # Crea el blueprint
 instructor_blueprint = Blueprint('instructor', __name__)
 
+def validar_cedula(ci):
+    """ Valida que la cédula tenga exactamente 8 dígitos y sea numérica. """
+    return len(ci) == 8 and ci.isdigit()
+
+def registrar_instructor(ci, nombre, apellido):
+    connection = connect_to_database()
+    if connection is None:
+        return "Error: No se pudo conectar a la base de datos."
+
+    try:
+        cursor = connection.cursor()
+        query = "INSERT INTO instructores (ci, nombre, apellido) VALUES (%s, %s, %s)"
+        cursor.execute(query, (ci, nombre, apellido))
+        connection.commit()
+        return "Instructor registrado exitosamente."
+    except Error as e:
+        return f"Error al registrar el instructor: {e}"
+    finally:
+        cursor.close()
+        connection.close()
+
+def eliminar_instructor(ci, nombre, apellido):
+    connection = connect_to_database()
+    if connection is None:
+        return False  # Retorna False si no se pudo conectar
+
+    try:
+        cursor = connection.cursor()
+        query = "DELETE FROM instructores WHERE ci = %s AND nombre = %s AND apellido = %s"
+        cursor.execute(query, (ci, nombre, apellido))
+        connection.commit()
+        
+        return cursor.rowcount > 0  # Retorna True si se eliminó exitosamente
+    except Error as e:
+        return False  # Retorna False en caso de error
+    finally:
+        cursor.close()
+        connection.close()
+
 # Ruta para el menú del instructor
 @instructor_blueprint.route('/instructor/menu', methods=['GET'])
 def instructor_menu():
@@ -19,12 +58,10 @@ def registrar_instructor_route():
     apellido = data.get('apellido')
 
     if not validar_cedula(ci):
-        flash("La cédula debe tener exactamente 8 dígitos numéricos.")
-        return redirect(url_for('instructor.instructor_menu'))
+        return jsonify({'error': "La cédula debe tener exactamente 8 dígitos numéricos."}), 400
 
     message = registrar_instructor(ci, nombre, apellido)
-    flash(message)
-    return redirect(url_for('instructor.instructor_menu'))
+    return render_template('instructor_menu.html')
 
 # Ruta para eliminar instructor
 @instructor_blueprint.route('/instructor/eliminar', methods=['POST'])
@@ -36,15 +73,13 @@ def eliminar_instructor_route():
 
     success = eliminar_instructor(ci, nombre, apellido)
     if success:
-        flash("Instructor eliminado exitosamente.")
+        return jsonify({'message': "Instructor eliminado exitosamente."}), 
     else:
-        flash("No se encontró el instructor.")
-    
-    return redirect(url_for('instructor.instructor_menu'))
+        return jsonify({'error': "No se encontró el instructor."}), 400
 
 # Ruta para anotarse a una clase
 @instructor_blueprint.route('/instructor/anotarse', methods=['POST'])
 def anotarse_clase():
-    # Falta implementar logica !!
+    # Implementa lógica para anotarse a una clase
     flash("Anotado a la clase exitosamente.") 
     return redirect(url_for('instructor.instructor_menu'))
