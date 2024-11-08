@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Alumno en Clase</title>
+</head>
+<body>
+    <h1>Registrar Alumno en Clase</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="alert alert-{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('equipamiento.registrar_alumno_clase_route') }}" method="post">
+        <label for="id_clase">ID de Clase:</label>
+        <input type="text" id="id_clase" name="id_clase" required><br><br>
+
+        <label for="ci_alumno">Cédula del Alumno:</label>
+        <input type="text" id="ci_alumno" name="ci_alumno" required><br><br>
+
+        <label for="id_equipamiento">Equipamiento (opcional):</label>
+        <select id="id_equipamiento" name="id_equipamiento">
+            <option value="">Seleccionar equipamiento</option>
+            {% for id, descripcion in equipamientos %}
+                <option value="{{ id }}">{{ descripcion }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="es_alquilado">¿Alquilar Equipamiento?</label>
+        <input type="checkbox" id="es_alquilado" name="es_alquilado"><br><br>
+
+        <button type="submit">Registrar Alumno en Clase</button>
+    </form>
+</body>
+</html>
