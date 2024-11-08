@@ -23,6 +23,7 @@ def registrar_alumno(ci, nombre, apellido, fecha):
     if connection is None:
         return {"error": "No se pudo conectar a la base de datos."}, 500
 
+
     try:
         cursor = connection.cursor()
         query = "INSERT INTO alumnos (ci, nombre, apellido, fecha_nacimiento) VALUES (%s, %s, %s, %s)"
@@ -31,6 +32,7 @@ def registrar_alumno(ci, nombre, apellido, fecha):
         return {"message": "Alumno registrado exitosamente."}, 201
     except Error as e:
         return {"error": f"Error al registrar el alumno: {e}"}, 500
+
     finally:
         cursor.close()
         connection.close()
@@ -46,7 +48,6 @@ def eliminar_alumno(ci, nombre, apellido, fecha):
         query = "DELETE FROM alumnos WHERE ci = %s AND nombre = %s AND apellido = %s AND fecha_nacimiento = %s"
         cursor.execute(query, (ci, nombre, apellido, fecha))
         connection.commit()
-        
         if cursor.rowcount > 0:
             return {"message": "Alumno eliminado exitosamente."}, 200
         else:
@@ -85,6 +86,7 @@ def obtener_clases_disponibles():
             return {"message": "No hay clases disponibles."}, 404
     except Error as e:
         return {"error": f"Error al mostrar las clases: {e}"}, 500
+
     finally:
         cursor.close()
         connection.close()
@@ -95,6 +97,7 @@ def unirse_a_clase(ci, id_clase):
     if connection is None:
         return {"error": "No se pudo conectar a la base de datos."}, 500
 
+
     try:
         cursor = connection.cursor()
         query_verificar = "SELECT * FROM alumno_clase WHERE id_clase = %s AND ci_alumno = %s"
@@ -103,13 +106,16 @@ def unirse_a_clase(ci, id_clase):
 
         if resultado:
             return {"message": "El alumno ya está registrado en esta clase."}, 400
+
         else:
             query_insertar = "INSERT INTO alumno_clase (id_clase, ci_alumno) VALUES (%s, %s)"
             cursor.execute(query_insertar, (id_clase, ci))
             connection.commit()
+
             return {"message": "Alumno agregado a la clase exitosamente."}, 201
     except Error as e:
         return {"error": f"Error al agregar el alumno a la clase: {e}"}, 500
+
     finally:
         cursor.close()
         connection.close()
