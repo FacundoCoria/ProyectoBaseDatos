@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Alta de Turno</title>
+</head>
+<body>
+    <h2>Registrar Nuevo Turno</h2>
+    <form action="{{ url_for('turno.alta_turno') }}" method="POST">
+        <label for="hora_inicio">Hora de Inicio:</label>
+        <input type="text" id="hora_inicio" name="hora_inicio" required><br><br>
+
+        <label for="hora_fin">Hora de Fin:</label>
+        <input type="text" id="hora_fin" name="hora_fin" required><br><br>
+
+        <button type="submit">Registrar Turno</button>
+    </form>
+
+    <a href="{{ url_for('turno.listar_turnos') }}">Volver a la Lista de Turnos</a>
+</body>
+</html>

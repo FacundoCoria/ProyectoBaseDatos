@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta de Clase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h2>Registrar Nueva Clase</h2>
+    <form action="{{ url_for('clase.alta_clase') }}" method="POST">
+        <label for="ci_instructor">CI del Instructor:</label>
+        <input type="text" id="ci_instructor" name="ci_instructor" required><br><br>
+
+        <label for="id_actividad">ID de la Actividad:</label>
+        <input type="text" id="id_actividad" name="id_actividad" required><br><br>
+
+        <label for="id_turno">ID del Turno:</label>
+        <input type="text" id="id_turno" name="id_turno" required><br><br>
+
+        <label for="tipo_clase">Tipo de clase</label>
+        <input type="text" id="tipo_clase" name="tipo_clase" required><br><br>
+
+        <button type="submit">Registrar Clase</button>
+    </form>
+
+    <!-- Mostrar mensajes flash -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <a href="{{ url_for('instructor.instructor_menu') }}">Volver al Menú del Instructor</a>
+</body>
+</html>

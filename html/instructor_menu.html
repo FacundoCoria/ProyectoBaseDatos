@@ -10,75 +10,33 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <div class="container mt-4">
-        <h2>Menú Instructor</h2>
-        <!-- Botón para abrir el modal de registro -->
-        <button class="btn btn-primary" data-toggle="modal" data-target="#registrarModal">Registrar Instructor</button>
-        <!-- Botón para abrir el modal de eliminación -->
-        <button class="btn btn-danger" data-toggle="modal" data-target="#eliminarModal">Eliminar Instructor</button>
+    <h2>Menú del Instructor</h2>
+    <p><a href="{{ url_for('instructor.registrar_instructor_route') }}">Registrar Información</a></p>
+    <form action="{{ url_for('instructor.eliminar_instructor_route') }}" method="POST">
+        <h3>Eliminar Instructor</h3>
+        <label for="ci">Cédula:</label>
+        <input type="text" id="ci" name="ci" required>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+        <button type="submit">Eliminar</button>
+    </form>
 
-        <!-- Modal para registrar instructor -->
-        <div class="modal fade" id="registrarModal" tabindex="-1" aria-labelledby="registrarModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="registrarModalLabel">Registrar Instructor</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ url_for('instructor.registrar_instructor_route') }}" method="POST" id="registrarForm">
-                            <div class="form-group">
-                                <label for="ci">Cédula:</label>
-                                <input type="text" class="form-control" id="ci" name="ci" required>
-                                <div id="ciError" class="text-danger" style="display:none;"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" name="nombre" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="apellido">Apellido:</label>
-                                <input type="text" class="form-control" id="apellido" name="apellido" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Registrar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <p><a href="{{ url_for('clase.alta_clase_form') }}">Dar de Alta una Clase</a></p>
 
-        <!-- Modal para eliminar instructor -->
-        <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="eliminarModalLabel">Eliminar Instructor</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ url_for('instructor.eliminar_instructor_route') }}" method="POST">
-                            <div class="form-group">
-                                <label for="ci_eliminar">Cédula:</label>
-                                <input type="text" class="form-control" id="ci_eliminar" name="ci" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="nombre_eliminar">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre_eliminar" name="nombre" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="apellido_eliminar">Apellido:</label>
-                                <input type="text" class="form-control" id="apellido_eliminar" name="apellido" required>
-                            </div>
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <form action="{{ url_for('instructor.anotarse_clase') }}" method="POST">
+        <h3>Anotarse a una Clase</h3>
+        <label for="clase">Nombre de la Clase:</label>
+        <input type="text" id="clase" name="clase" required>
+        <button type="submit">Anotarse</button>
+    </form>
+
+    <h3>Gestión de Turnos</h3>
+    <ul>
+        <li><a href="{{ url_for('turno.alta_turno_form') }}">Dar de Alta un Turno</a></li>
+        <li><a href="{{ url_for('turno.listar_turnos') }}">Ver Turnos</a></li>
+    </ul>
 
         <!-- Mensajes flash -->
         {% with messages = get_flashed_messages() %}
