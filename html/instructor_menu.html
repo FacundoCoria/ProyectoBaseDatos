@@ -20,8 +20,6 @@
         <button type="submit">Eliminar</button>
     </form>
 
-    <p><a href="{{ url_for('clase.alta_clase_form') }}">Dar de Alta una Clase</a></p>
-
     <form action="{{ url_for('instructor.anotarse_clase') }}" method="POST">
         <h3>Anotarse a una Clase</h3>
         <label for="clase">Nombre de la Clase:</label>
@@ -29,8 +27,8 @@
         <button type="submit">Anotarse</button>
     </form>
 
-    <h3>Gestión de Turnos</h3>
     <ul>
+        <li><a href="{{ url_for('clase.alta_clase_form') }}">Dar de Alta una Clase</a></li>
         <li><a href="{{ url_for('turno.alta_turno_form') }}">Dar de Alta un Turno</a></li>
         <li><a href="{{ url_for('turno.listar_turnos') }}">Ver Turnos</a></li>
     </ul>

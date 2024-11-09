@@ -4,19 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='registro.css') }}">
 </head>
 <body>
+    <a href="{{ url_for('auth.login') }}" class="back-button">Atras</a>
     <h2>Registro</h2>
-    <form action="{{ url_for('auth.register') }}" method="POST">
+    <form action="{{ url_for('auth.registerEstudiante') }}" method="POST">
+
         <label for="correo">Correo:</label>
         <input type="email" id="correo" name="correo" required><br>
 
-        <label for="contraseña">Contraseña:</label>
+        <label for="contraseña">Prueba:</label>
         <input type="password" id="contraseña" name="contraseña" required><br>
-
-        <label for="rol">Rol:</label>
-        <input type="text" id="rol" name="rol" required><br>
 
         <label for="ci">CI:</label>
         <input type="text" id="ci" name="ci" required><br>

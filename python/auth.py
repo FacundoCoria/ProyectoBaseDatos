@@ -43,8 +43,8 @@ def authenticate_user(correo, contraseña):
         cursor.close()
         connection.close()
 
-@auth_blueprint.route('/register', methods=['GET', 'POST'])
-def register():
+@auth_blueprint.route('/registerInstructor', methods=['GET', 'POST'])
+def registerInstructor():
     if request.method == 'POST':
         correo = request.form.get('correo')
         contraseña = request.form.get('contraseña')
@@ -56,7 +56,22 @@ def register():
         else:
             flash('Error al registrar el usuario.')
 
-    return render_template('register.html')
+    return render_template('registerInstructor.html')
+
+@auth_blueprint.route('/registerEstudiante', methods=['GET', 'POST'])
+def registerEstudiante():
+    if request.method == 'POST':
+        correo = request.form.get('correo')
+        contraseña = request.form.get('contraseña')
+        rol = request.form.get('rol')
+        ci = request.form.get('ci')
+        if register_user(correo, contraseña, rol, ci):
+            flash('Usuario registrado exitosamente.')
+            return redirect(url_for('auth.login'))
+        else:
+            flash('Error al registrar el usuario.')
+
+    return render_template('registerEstudiante.html')
 
 @auth_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
