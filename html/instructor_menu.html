@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú Instructor</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <h2>Menú del Instructor</h2>
@@ -33,15 +36,35 @@
         <li><a href="{{ url_for('turno.listar_turnos') }}">Ver Turnos</a></li>
     </ul>
 
-    <!-- Mostrar mensajes de flash -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+        <!-- Mensajes flash -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info mt-3">
+                    {% for message in messages %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#registrarForm').on('submit', function(event) {
+                event.preventDefault(); // Previene el envío del formulario
+                const ci = $('#ci').val();
+                const ciError = $('#ciError');
+
+                // Valida la cédula
+                if (ci.length !== 8 || isNaN(ci)) {
+                    ciError.text("La cédula debe tener exactamente 8 dígitos numéricos.").show();
+                } else {
+                    ciError.hide();
+                    // Si la cédula es válida, envía el formulario
+                    this.submit();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

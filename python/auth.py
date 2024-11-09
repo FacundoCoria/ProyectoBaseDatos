@@ -81,7 +81,11 @@ def login():
         ci, rol = authenticate_user(correo, contraseña)
         if ci:
             flash('Inicio de sesión exitoso.')
-            return redirect(url_for('instructor.instructor_menu'))  # Redirige al menú del instructor
+            if rol == "instructor":
+                return redirect(url_for('instructor.instructor_menu'))  # Redirige al menú del instructor
+            elif rol == "estudiante":
+                return redirect(url_for('estudiante.estudiante_menu'))  # Redirige al menú del estudiante
+
         else:
             flash('Correo o contraseña incorrectos.')
 
