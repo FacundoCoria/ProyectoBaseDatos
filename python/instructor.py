@@ -9,23 +9,6 @@ def validar_cedula(ci):
     """ Valida que la cédula tenga exactamente 8 dígitos y sea numérica. """
     return len(ci) == 8 and ci.isdigit()
 
-def registrar_instructor(ci, nombre, apellido):
-    connection = connect_to_database()
-    if connection is None:
-        return "Error: No se pudo conectar a la base de datos."
-
-    try:
-        cursor = connection.cursor()
-        query = "INSERT INTO instructores (ci, nombre, apellido) VALUES (%s, %s, %s)"
-        cursor.execute(query, (ci, nombre, apellido))
-        connection.commit()
-        return "Instructor registrado exitosamente."
-    except Error as e:
-        return f"Error al registrar el instructor: {e}"
-    finally:
-        cursor.close()
-        connection.close()
-
 def eliminar_instructor(ci, nombre, apellido):
     connection = connect_to_database()
     if connection is None:
@@ -48,21 +31,6 @@ def eliminar_instructor(ci, nombre, apellido):
 @instructor_blueprint.route('/instructor/menu', methods=['GET'])
 def instructor_menu():
     return render_template('instructor_menu.html')
-
-# Ruta para registrar información del instructor
-@instructor_blueprint.route('/instructor/registrar', methods=['POST'])
-def registrar_instructor_route():
-    data = request.form
-    ci = data.get('ci')
-    nombre = data.get('nombre')
-    apellido = data.get('apellido')
-
-    if not validar_cedula(ci):
-        return jsonify({'error': "La cédula debe tener exactamente 8 dígitos numéricos."}), 400
-
-    message = registrar_instructor(ci, nombre, apellido)
-    return render_template('instructor_menu.html')
-
 # Ruta para eliminar instructor
 @instructor_blueprint.route('/instructor/eliminar', methods=['POST'])
 def eliminar_instructor_route():

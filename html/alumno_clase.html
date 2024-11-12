@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Registrar Alumno en Clase</h1>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <ul>
@@ -27,13 +28,19 @@
         <label for="id_equipamiento">Equipamiento (opcional):</label>
         <select id="id_equipamiento" name="id_equipamiento">
             <option value="">Seleccionar equipamiento</option>
-            {% for id, descripcion in equipamientos %}
-                <option value="{{ id }}">{{ descripcion }}</option>
-            {% endfor %}
-        </select><br><br>
+            {% if equipamientos %}
+                {% for equipamiento in equipamientos %}
+                    <option value="{{ equipamiento[0] }}">{{ equipamiento[1] }} - ${{ equipamiento[2] }}</option>
+                {% endfor %}
+            {% else %}
+                <option value="">No hay equipamientos disponibles</option>
+            {% endif %}
+        </select>
 
         <label for="es_alquilado">¿Alquilar Equipamiento?</label>
-        <input type="checkbox" id="es_alquilado" name="es_alquilado"><br><br>
+        <input type="checkbox" id="es_alquilado" name="es_alquilado">
+        <small>Marque esta casilla si desea alquilar el equipamiento.</small><br><br>
+
 
         <button type="submit">Registrar Alumno en Clase</button>
     </form>

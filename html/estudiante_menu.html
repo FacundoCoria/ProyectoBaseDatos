@@ -39,6 +39,53 @@
         <button type="submit">Unirse</button>
     </form>
 
+    <!-- Botón para abrir el modal de adquisición de equipamiento -->
+    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#equipamientoModal">Adquirir Equipamiento</button>
+
+    <!-- Modal para adquirir equipamiento -->
+    <div class="modal fade" id="equipamientoModal" tabindex="-1" aria-labelledby="equipamientoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="equipamientoModalLabel">Adquirir Equipamiento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ url_for('equipamiento.adquirir_equipamiento') }}" method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="ci_alumno">Cédula del Alumno:</label>
+                            <input type="text" id="ci_alumno" name="ci_alumno" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_clase">ID de la Clase:</label>
+                            <input type="text" id="id_clase" name="id_clase" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_equipamiento">Selecciona Equipamiento:</label>
+                            <select id="id_equipamiento" name="id_equipamiento" class="form-control" required>
+                                {% for equipamiento in equipamientos %}
+                                    <option value="{{ equipamiento[0] }}">{{ equipamiento[1] }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="es_alquilado" name="es_alquilado">
+                            <label class="form-check-label" for="es_alquilado">Es alquilado</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Adquirir</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <li><a href="{{ url_for('auth.login') }}">Volver</a></li>
+
     <!-- Mensajes flash -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -49,21 +96,5 @@
             </div>
         {% endif %}
     {% endwith %}
-
-    <script>
-        $(document).ready(function() {
-            // Validación del formulario de eliminar estudiante
-            $('form').on('submit', function(event) {
-                const ci = $('#ci').val();
-                const ciError = $('#ciError');
-
-                // Valida que la cédula tenga exactamente 8 dígitos
-                if (ci.length !== 8 || isNaN(ci)) {
-                    event.preventDefault(); // Previene el envío del formulario si la cédula es inválida
-                    alert("La cédula debe tener exactamente 8 dígitos numéricos.");
-                }
-            });
-        });
-    </script>
 </body>
 </html>

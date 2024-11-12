@@ -119,6 +119,34 @@ def unirse_a_clase(ci, id_clase):
     finally:
         cursor.close()
         connection.close()
+    
+def obtener_equipamientos():
+    """Obtiene los equipamientos disponibles de la base de datos."""
+    connection = connect_to_database()
+    if connection is None:
+        return {"error": "No se pudo conectar a la base de datos."}, 500
+
+    try:
+        cursor = connection.cursor()
+        query = "SELECT id, descripcion, costo FROM equipamiento"
+        cursor.execute(query)
+        equipamientos = cursor.fetchall()
+
+        if equipamientos:
+            equipamientos_disponibles = [
+                {"id": equipamiento[0], "descripcion": equipamiento[1], "costo": equipamiento[2]}
+                for equipamiento in equipamientos
+            ]
+            return equipamientos_disponibles, 200
+        else:
+            return [], 404  # No hay equipamientos disponibles
+
+    except Error as e:
+        return {"error": f"Error al obtener los equipamientos: {e}"}, 500
+
+    finally:
+        cursor.close()
+        connection.close()
 
 # Rutas de estudiante
 
@@ -161,3 +189,12 @@ def unirse_a_clase_route():
 
     response, status = unirse_a_clase(ci, id_clase)
     return jsonify(response), status
+
+@estudiante_blueprint.route('/estudiante/equipamientos', methods=['GET'])
+def equipamientos_route():
+    equipamientos, status = obtener_equipamientos()
+
+    if status == 200:
+        return render_template('modal.html', equipamientos=equipamientos)
+    else:
+        return render_template('modal.html', equipamientos=[])

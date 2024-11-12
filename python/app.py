@@ -4,6 +4,7 @@ from instructor import instructor_blueprint
 from clases import clase_blueprint
 from turno import turno_blueprint
 from estudiante import estudiante_blueprint
+from equipamiento import equipamiento_blueprint
 
 
 app = Flask(
@@ -20,6 +21,7 @@ app.register_blueprint(instructor_blueprint)
 app.register_blueprint(estudiante_blueprint)
 app.register_blueprint(clase_blueprint)
 app.register_blueprint(turno_blueprint)
+app.register_blueprint(equipamiento_blueprint)
 
 
 # Redirige la ruta principal a la página de login del blueprint `auth`

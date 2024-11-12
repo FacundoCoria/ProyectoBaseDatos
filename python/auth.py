@@ -4,8 +4,7 @@ from mysql.connector import Error
 
 auth_blueprint = Blueprint('auth', __name__)
 
-# Funcion para registrar a un usuario con un correo.
-
+# Función para registrar a un usuario con un correo
 def register_user(correo, contraseña, rol, ci):
     connection = connect_to_database()
     if connection is None:
@@ -24,8 +23,7 @@ def register_user(correo, contraseña, rol, ci):
         cursor.close()
         connection.close()
 
-# Funcion para poder iniciar sesion con un usuario.
-
+# Función para autenticar usuario
 def authenticate_user(correo, contraseña):
     connection = connect_to_database()
     if connection is None:
@@ -43,16 +41,65 @@ def authenticate_user(correo, contraseña):
         cursor.close()
         connection.close()
 
+# Nueva función para registrar al instructor
+def register_instructor(ci, nombre, apellido):
+    connection = connect_to_database()
+    if connection is None:
+        return False
+    try:
+        cursor = connection.cursor()
+        query = "INSERT INTO instructores (ci, nombre, apellido) VALUES (%s, %s, %s)"
+        cursor.execute(query, (ci, nombre, apellido))
+        connection.commit()
+        print("Instructor registrado exitosamente.")
+        return True
+    except Error as e:
+        print(f"Error al registrar el instructor: {e}")
+        return False
+    finally:
+        cursor.close()
+        connection.close()
+
+# Nueva función para registrar al alumno
+def register_alumno(ci, nombre, apellido, fecha_nacimiento, telefono, correo):
+    connection = connect_to_database()
+    if connection is None:
+        return False
+    try:
+        cursor = connection.cursor()
+        query = """
+            INSERT INTO alumnos (ci, nombre, apellido, fecha_nacimiento, telefono, correo)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(query, (ci, nombre, apellido, fecha_nacimiento, telefono, correo))
+        connection.commit()
+        print("Alumno registrado exitosamente.")
+        return True
+    except Error as e:
+        print(f"Error al registrar el alumno: {e}")
+        return False
+    finally:
+        cursor.close()
+        connection.close()
+
 @auth_blueprint.route('/registerInstructor', methods=['GET', 'POST'])
 def registerInstructor():
     if request.method == 'POST':
         correo = request.form.get('correo')
         contraseña = request.form.get('contraseña')
-        rol = request.form.get('rol')
         ci = request.form.get('ci')
+        nombre = request.form.get('nombre')
+        apellido = request.form.get('apellido')
+        rol = "instructor"  # Define el rol aquí
+
+        # Primero registra el usuario en la tabla login
         if register_user(correo, contraseña, rol, ci):
-            flash('Usuario registrado exitosamente.')
-            return redirect(url_for('auth.login'))
+            # Luego registra los datos específicos en la tabla instructores
+            if register_instructor(ci, nombre, apellido):
+                flash('Instructor registrado exitosamente.')
+                return redirect(url_for('auth.login'))
+            else:
+                flash('Error al registrar al instructor.')
         else:
             flash('Error al registrar el usuario.')
 
@@ -63,11 +110,21 @@ def registerEstudiante():
     if request.method == 'POST':
         correo = request.form.get('correo')
         contraseña = request.form.get('contraseña')
-        rol = request.form.get('rol')
         ci = request.form.get('ci')
+        nombre = request.form.get('nombre')
+        apellido = request.form.get('apellido')
+        fecha_nacimiento = request.form.get('fecha_nacimiento')
+        telefono = request.form.get('telefono')
+        rol = "estudiante"  # Define el rol aquí
+
+        # Primero registra el usuario en la tabla login
         if register_user(correo, contraseña, rol, ci):
-            flash('Usuario registrado exitosamente.')
-            return redirect(url_for('auth.login'))
+            # Luego registra los datos específicos en la tabla alumnos
+            if register_alumno(ci, nombre, apellido, fecha_nacimiento, telefono, correo):
+                flash('Estudiante registrado exitosamente.')
+                return redirect(url_for('auth.login'))
+            else:
+                flash('Error al registrar al estudiante.')
         else:
             flash('Error al registrar el usuario.')
 
