@@ -142,7 +142,8 @@ def login():
                 return redirect(url_for('instructor.instructor_menu'))  # Redirige al menú del instructor
             elif rol == "estudiante":
                 return redirect(url_for('estudiante.estudiante_menu'))  # Redirige al menú del estudiante
-
+            elif rol == "administrador":
+                return redirect(url_for('administrativo.administrativo_menu'))  # Redirige al menú del administrador
         else:
             flash('Correo o contraseña incorrectos.')
 
