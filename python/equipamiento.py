@@ -50,19 +50,29 @@ def registrar_alumno_clase_route():
             connection.close()
         return redirect(url_for('equipamiento.registrar_alumno_clase_route'))
 
-    # Obtener el listado de clases y equipamientos para mostrar en el formulario
+    # Obtener el listado de clases, alumnos y equipamientos para mostrar en el formulario
     try:
         cursor = connection.cursor()
+
+        # Obtener los alumnos disponibles
+        cursor.execute("SELECT ci, nombre FROM alumnos")
+        alumnos = cursor.fetchall()
+
+        # Obtener las clases disponibles
+        cursor.execute("SELECT id, nombre FROM clase")
+        clases = cursor.fetchall()
+
+        # Obtener los equipamientos disponibles
         cursor.execute("SELECT id, descripcion FROM equipamiento")
         equipamientos = cursor.fetchall()
     except Error as e:
-        flash(f"Error al obtener equipamientos: {e}", "error")
-        equipamientos = []
+        flash(f"Error al obtener datos de la base de datos: {e}", "error")
+        alumnos, clases, equipamientos = [], [], []
     finally:
         cursor.close()
         connection.close()
 
-    return render_template('registrar_alumno_clase.html', equipamientos=equipamientos)
+    return render_template('registrar_alumno_clase.html', alumnos=alumnos, clases=clases, equipamientos=equipamientos)
 
 
 @equipamiento_blueprint.route('/equipamiento/adquirir', methods=['POST'])
@@ -70,7 +80,7 @@ def adquirir_equipamiento():
     connection = connect_to_database()
     if connection is None:
         flash("Error al conectar a la base de datos.", "error")
-        return redirect(url_for('equipamiento.registrar_alumno_clase_route'))
+        return redirect(url_for('equipamiento.registrar_alumno_clase_route'))  # Redirigir al formulario de registro si no se conecta
 
     try:
         data = request.form
@@ -104,4 +114,6 @@ def adquirir_equipamiento():
         cursor.close()
         connection.close()
 
-    return redirect(url_for('equipamiento.registrar_alumno_clase_route'))
+    # Redirigir al menú del estudiante después de adquirir el equipamiento
+    return redirect(url_for('estudiante.estudiante_menu'))  # Asegúrate de que 'menu_estudiante' sea la ruta correcta
+
