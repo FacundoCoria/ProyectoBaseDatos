@@ -12,6 +12,8 @@
 <body>
     <h2>Menú Administrativo</h2>
 
+    <a href="{{ url_for('auth.login') }}" class="back-button">Atras</a>
+
     <!-- Formulario para agregar un Instructor -->
     <form action="{{ url_for('administrativo.alta_instructor') }}" method="POST">
         <h3>Agregar Instructor</h3>
@@ -103,7 +105,6 @@
         <li><a href="{{ url_for('clase.alta_clase_form') }}">Dar de Alta una Clase</a></li>
         <li><a href="{{ url_for('turno.alta_turno_form') }}">Dar de Alta un Turno</a></li>
         <li><a href="{{ url_for('turno.listar_turnos') }}">Ver Turnos</a></li>
-        <li><a href="{{ url_for('auth.login') }}">Volver</a></li>
     </ul>
 
 

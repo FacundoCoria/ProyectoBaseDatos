@@ -13,6 +13,24 @@ body {
     padding: 20px;
 }
 
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: url('ucu.jpeg') no-repeat center center fixed;
+    background-size: cover;
+
+    filter: brightness(0.9) grayscale(0.1);
+    background-color: rgba(255, 255, 255, 0.8);
+    background-blend-mode: lighten;
+
+    z-index: -1;
+}
+
 h2 {
     font-size: 40px;
     color: #333;
@@ -56,7 +74,7 @@ input[type="text"] {
 }
 
 input[type="text"]:focus {
-    border-color: #4CAF50;
+    border-color: #363784;
     background-color: #fff;
     outline: none;
 }
@@ -67,7 +85,7 @@ button, .button-link a {
     font-size: 16px;
     color: #fff;
     text-align: center;
-    background-color: #4CAF50;
+    background-color: #363784;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -78,7 +96,7 @@ button, .button-link a {
 }
 
 button:hover, .button-link a:hover {
-    background-color: #388e3c;
+    background-color: #151652;
 }
 
 .button-link {
@@ -97,11 +115,68 @@ ul li {
 }
 
 ul li a {
-    color: #4CAF50;
+    color: #363784;
     text-decoration: none;
     font-weight: bold;
 }
 
 ul li a:hover {
     text-decoration: underline;
+}
+
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 8px 16px;
+    background-color: #363784;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #151652;
+}
+
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.top-bar .back-button {
+    display: inline-block;
+    background-color: #363784;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.top-bar .back-button:hover {
+    background-color: #151652;
+}
+
+.top-bar .welcome-message {
+    font-size: 18px;
+    color: #151652;
+    font-weight: bold;
+    margin: auto; 
+    text-align: center;
 }
