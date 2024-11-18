@@ -102,12 +102,12 @@ def alta_alumno():
 
 @administrativo_blueprint.route('/alumno/baja', methods=['POST'])
 def baja_alumno():
-    instructor_id = request.form.get('alumno_id')
+    ci = request.form.get('ci')
     connection = connect_to_database()
     
     try:
         cursor = connection.cursor()
-        cursor.execute("DELETE FROM alumnos WHERE id = %s", (instructor_id,))
+        cursor.execute("DELETE FROM alumnos WHERE ci = %s", (ci,))
         connection.commit()
         flash("Alumno eliminado exitosamente.", "success")
     except Error as e:
@@ -119,7 +119,7 @@ def baja_alumno():
 
 @administrativo_blueprint.route('/alumno/modificar', methods=['POST'])
 def modificar_alumno():
-    instructor_id = request.form.get('alumno_id')
+    ci = request.form.get('ci')
     nombre = request.form.get('nombre')
     apellido = request.form.get('apellido')
     fecha_nacimiento = request.form.get('fecha_nacimiento')
@@ -129,8 +129,8 @@ def modificar_alumno():
     
     try:
         cursor = connection.cursor()
-        cursor.execute("UPDATE alumnos SET nombre=%s, apellido=%s, fecha_nacimiento=%s, correo=%s, telefono=%s WHERE id=%s",
-                       (nombre, apellido, alumno_id, fecha_nacimiento, correo, telefono))
+        cursor.execute("UPDATE alumnos SET nombre=%s, apellido=%s, fecha_nacimiento=%s, correo=%s, telefono=%s WHERE ci=%s",
+                       (nombre, apellido, fecha_nacimiento, correo, telefono, ci))
         connection.commit()
         flash("Estudiante modificado exitosamente.", "success")
     except Error as e:
@@ -142,8 +142,24 @@ def modificar_alumno():
 
 @administrativo_blueprint.route('/actividad/modificar', methods=['POST'])
 def modificar_actividad():
-    # Lógica para modificar una actividad
-    pass
+    actividad_id = request.form.get('actividad_id')
+    descripcion = request.form.get('descripcion')
+    costo = request.form.get('costo')
+    connection = connect_to_database()
+    
+    try:
+        cursor = connection.cursor()
+        cursor.execute("UPDATE actividades SET descripcion=%s, costo=%s WHERE id=%s",
+                       (descripcion, costo, actividad_id))
+        connection.commit()
+        flash("Instructor modificado exitosamente.", "success")
+    except Error as e:
+        flash(f"Error al modificar instructor: {e}", "error")
+    finally:
+        cursor.close()
+        connection.close()
+    return redirect(url_for('administrativo.administrativo_menu'))
+
 
 @administrativo_blueprint.route('/administrativo/menu', methods=['GET'])
 def administrativo_menu():

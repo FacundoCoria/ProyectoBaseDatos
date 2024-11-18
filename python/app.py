@@ -22,7 +22,7 @@ app.register_blueprint(instructor_blueprint)
 app.register_blueprint(estudiante_blueprint)
 app.register_blueprint(clase_blueprint)
 app.register_blueprint(turno_blueprint)
-app.register_blueprint(equipamiento_blueprint)
+app.register_blueprint(equipamiento_blueprint, url_prefix='/equipamiento')
 app.register_blueprint(administrativo_blueprint)
 
 

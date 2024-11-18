@@ -56,7 +56,7 @@ CREATE TABLE alumno_clase (
     id_clase INT,
     ci_alumno CHAR(8),
     id_equipamiento INT,
-    PRIMARY KEY (id_clase, ci_alumno),
+    PRIMARY KEY (id_clase, ci_alumno, id_equipamiento),
     FOREIGN KEY (id_clase) REFERENCES clase(id),
     FOREIGN KEY (ci_alumno) REFERENCES alumnos(ci),
     FOREIGN KEY (id_equipamiento) REFERENCES equipamiento(id)
@@ -64,6 +64,9 @@ CREATE TABLE alumno_clase (
 
 ALTER TABLE clase
 ADD CONSTRAINT unique_instructor_turno UNIQUE (ci_instructor, id_turno);
+
+DROP TABLE alumno_clase;
+
 
 ALTER TABLE login ADD COLUMN rol ENUM('administrador', 'instructor', 'estudiante') NOT NULL;
 ALTER TABLE login ADD COLUMN ci CHAR(8) NOT NULL;
@@ -73,5 +76,25 @@ VALUES ('snowboard', 250),
     ('ski', 300),
     ('moto de nieve', 500);
 
+INSERT INTO turnos (hora_inicio, hora_fin)
+VALUES ('09:00', '11:00'),
+       ('12:00', '14:00'),
+       ('16:00', '18:00');
+
+INSERT INTO equipamiento (id_actividad, descripcion, costo) VALUES
+(1, 'Tabla de snowboard', 300.00),
+(1, 'Botas de snowboard', 150.00),
+(2, 'Esquís', 400.00),
+(2, 'Botas de esquí', 120.00),
+(3, 'Moto de nieve', 800.00),
+(3, 'Casco para moto de nieve', 100.00);
+
+INSERT INTO login(correo, contraseña, rol, ci) VALUES
+('administrativo1@mail.com', 'admin', 'administrador', 11111111);
+
+ALTER TABLE alumno_clase ADD COLUMN costo_adicional DECIMAL(10, 2) DEFAULT 0.0;
+
+
 Delete from instructores;
 Delete from login;
+Delete from alumno_clase;

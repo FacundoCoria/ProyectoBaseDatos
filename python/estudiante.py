@@ -152,7 +152,8 @@ def obtener_equipamientos():
 
 @estudiante_blueprint.route('/estudiante/menu', methods=['GET'])
 def estudiante_menu():
-    return render_template('estudiante_menu.html')
+    equipamientos, status = obtener_equipamientos()
+    return render_template('estudiante_menu.html', equipamientos=equipamientos)
 
 @estudiante_blueprint.route('/estudiante/registrar', methods=['POST'])
 def registrar_alumno_route():
