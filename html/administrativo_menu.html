@@ -9,119 +9,301 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
-<body>
     <div class="top-bar">
         <a href="{{ url_for('auth.login') }}" class="back-button">Cerrar sesión</a>
         <div class="welcome-message">
             Bienvenido {{ nombre }}
         </div>
     </div>
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Tarjeta de Instructor -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">Instructor</div>
+                    <div class="card-body">
+                        
+                        <!-- Agregar Instructor -->
+                        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#addInstructorModal">
+                            Agregar Instructor
+                        </button>
 
-    <!-- Formulario para agregar un Instructor -->
-    <div style="margin-top: 80px;"></div>
-        <form action="{{ url_for('administrativo.alta_instructor') }}" method="POST">
-            <h3>Agregar Instructor</h3>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
-            <label for="ci">CI:</label>
-            <input type="text" id="ci" name="ci" required>
-            <button type="submit">Agregar Instructor</button>
-        </form>
+                        <div class="modal fade" id="addInstructorModal" tabindex="-1" aria-labelledby="addInstructorLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addInstructorLabel">Agregar Instructor</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url_for('administrativo.alta_instructor') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="nombre">Nombre:</label>
+                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="apellido">Apellido:</label>
+                                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ci">CI:</label>
+                                                <input type="text" class="form-control" id="ci" name="ci" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Agregar Instructor</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-        <!-- Formulario para eliminar un Instructor -->
-        <form action="{{ url_for('administrativo.baja_instructor') }}" method="POST">
-            <h3>Eliminar Instructor</h3>
-            <label for="ci">CI del Instructor:</label>
-            <input type="text" id="ci" name="ci" required>
-            <button type="submit">Eliminar Instructor</button>
-        </form>
+                        <!-- Editar Instructor -->
 
-        <!-- Formulario para modificar un Instructor -->
-        <form action="{{ url_for('administrativo.modificar_instructor') }}" method="POST">
-            <h3>Modificar Instructor</h3>
-            <label for="ci">CI del Instructor:</label>
-            <input type="text" id="ci" name="ci" required>
-            <label for="nombre">Nuevo Nombre:</label>
-            <input type="text" id="nombre" name="nombre">
-            <label for="apellido">Nuevo Apellido:</label>
-            <input type="text" id="apellido" name="apellido">
-            <button type="submit">Modificar Instructor</button>
-        </form>
+                        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#editInstructorModal">
+                            Editar Instructor
+                        </button>
 
-        <!-- Formulario para agregar un Alumno -->
-        <form action="{{ url_for('administrativo.alta_alumno') }}" method="POST">
-            <h3>Agregar Alumno</h3>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
-            <label for="ci">CI:</label>
-            <input type="text" id="ci" name="ci" required>
-            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
-            <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required>
-            <label for="telefono">Telefono:</label>
-            <input type="text" id="telefono" name="telefono" required>
-            <button type="submit">Agregar Alumno</button>
-        </form>
+                        <div class="modal fade" id="editInstructorModal" tabindex="-1" aria-labelledby="editInstructorLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editInstructorLabel">Editar Instructor</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url_for('administrativo.modificar_instructor') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="ci">CI del Instructor:</label>
+                                                <input type="text" class="form-control" id="ci" name="ci" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="nombre">Nuevo nombre:</label>
+                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="apellido">Nuevo Apellido:</label>
+                                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Modificar Instructor</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Eliminar Instructor -->
 
-        <!-- Formulario para eliminar un Alumno -->
-        <form action="{{ url_for('administrativo.baja_alumno') }}" method="POST">
-            <h3>Eliminar Alumno</h3>
-            <label for="ci">CI del Alumno:</label>
-            <input type="text" id="ci" name="ci" required>
-            <button type="submit">Eliminar Alumno</button>
-        </form>
+                        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#deleteInstructorModal">
+                            Eliminar Instructor
+                        </button>
 
-        <form action="{{ url_for('administrativo.modificar_alumno') }}" method="POST">
-            <h3>Modificar Alumno</h3>
-            <label for="ci">CI del Alumno:</label>
-            <input type="text" id="ci" name="ci" required>
-            <label for="nombre">Nuevo Nombre:</label>
-            <input type="text" id="nombre" name="nombre">
-            <label for="apellido">Nuevo Apellido:</label>
-            <input type="text" id="apellido" name="apellido">
-            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" required>
-            <label for="correo">Correo:</label>
-            <input type="text" id="correo" name="correo" required>
-            <label for="telefono">Telefono:</label>
-            <input type="text" id="telefono" name="telefono" required>
-            <button type="submit">Modificar Alumno</button>
-        </form>
-
-        <!-- Formulario para modificar una Actividad -->
-        <form action="{{ url_for('administrativo.modificar_actividad') }}" method="POST">
-            <h3>Modificar Actividad</h3>
-            <label for="actividad_id">ID de la Actividad:</label>
-            <input type="text" id="actividad_id" name="actividad_id" required>
-            <label for="descripcion">Nueva descripcion:</label>
-            <input type="text" id="descripcion" name="descripcion">
-            <label for="costo">Nuevo costo:</label>
-            <input type="number" id="costo" name="costo">
-            <button type="submit">Modificar Actividad</button>
-        </form>
-
-        <ul>
-            <li><a href="{{ url_for('clase.alta_clase_form') }}">Dar de Alta una Clase</a></li>
-            <li><a href="{{ url_for('turno.alta_turno_form') }}">Dar de Alta un Turno</a></li>
-            <li><a href="{{ url_for('turno.listar_turnos') }}">Ver Turnos</a></li>
-        </ul>
-
-
-        <!-- Mensajes flash -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-info mt-3">
-                    {% for message in messages %}
-                        <div>{{ message }}</div>
-                    {% endfor %}
+                        <div class="modal fade" id="deleteInstructorModal" tabindex="-1" aria-labelledby="deleteInstructorLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteInstructorLabel">Eliminar Instructor</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url_for('administrativo.baja_instructor') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="ci">CI:</label>
+                                                <input type="text" class="form-control" id="ci" name="ci" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Eliminar Instructor</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            {% endif %}
-        {% endwith %}
-    </div>   
+            </div>
+            
+            <!-- Tarjeta de Alumno -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">Alumno</div>
+                    <div class="card-body">
+                        
+                        <!-- Agregar Alumno -->
+                        
+                        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#addAlumnoModal">
+                            Agregar Alumno
+                        </button>
+
+                        <div class="modal fade" id="addAlumnoModal" tabindex="-1" aria-labelledby="addAlumnoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addAlumnoLabel">Agregar Alumno</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url_for('administrativo.alta_alumno') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="nombre">Nombre:</label>
+                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="apellido">Apellido:</label>
+                                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ci">CI:</label>
+                                                <input type="text" class="form-control" id="ci" name="ci" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Correo:</label>
+                                                <input type="email" class="form-control" id="correo" name="correo" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefono">Teléfono:</label>
+                                                <input type="text" class="form-control" id="telefono" name="telefono" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Agregar Alumno</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Editar Alumno -->
+
+                        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#editAlumnoModal">
+                            Editar Alumno
+                        </button>
+
+                        <div class="modal fade" id="editAlumnoModal" tabindex="-1" aria-labelledby="editAlumnoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editAlumnoLabel">Editar Alumno</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url_for('administrativo.modificar_alumno') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="ci">CI del Alumno:</label>
+                                                <input type="text" class="form-control" id="ci" name="ci" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="nombre">Nuevo nombre:</label>
+                                                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="apellido">Nuevo Apellido:</label>
+                                                <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                                                <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Correo:</label>
+                                                <input type="email" class="form-control" id="correo" name="correo" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="telefono">Teléfono:</label>
+                                                <input type="text" class="form-control" id="telefono" name="telefono" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Modificar Alumno></button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Modal Eliminar Alumno -->
+
+                        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#deleteAlumnoModal">
+                            Eliminar Alumno
+                        </button>
+
+                        <div class="modal fade" id="deleteAlumnoModal" tabindex="-1" aria-labelledby="deleteAlumnoLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteAlumnoLabel">Eliminar Alumno</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url_for('administrativo.baja_alumno') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="ci">CI:</label>
+                                                <input type="text" class="form-control" id="ci" name="ci" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Eliminar Alumno</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta de Actividad -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-warning text-white">Actividades y Turnos</div>
+                    <div class="card-body">
+
+                        <!-- Editar Actividad -->
+
+                        <button type="button" class="btn btn-success mb-3" data-toggle="modal" data-target="#editActividadModal">
+                            Editar Actividad
+                        </button>
+
+                        <div class="modal fade" id="editActividadModal" tabindex="-1" aria-labelledby="editActividadLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="editActividadLabel">Editar Actividad</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ url_for('administrativo.modificar_actividad') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="actividad_id">ID de la Actividad:</label>
+                                                <input type="text" class="form-control" id="actividad_id" name="actividad_id" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="descripcion">Nueva Descripción:</label>
+                                                <input type="text" class="form-control" id="descripcion" name="descripcion">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fecha">Nueva Fecha:</label>
+                                                <input type="date" class="form-control" id="fecha" name="fecha">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Modificar Actividad</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
