@@ -154,7 +154,6 @@ def login():
                 cursor.close()
                 connection.close()
 
-                flash('Inicio de sesión exitoso.')
                 if rol == "instructor":
                     return render_template('instructor_menu.html', nombre=nombre)
                 elif rol == "estudiante":
@@ -163,7 +162,6 @@ def login():
                     return render_template('administrativo_menu.html', nombre=nombre)
             except Error as e:
                 print(f"Error al obtener el nombre: {e}")
-                flash('Error al iniciar sesión.')
                 return redirect(url_for('auth.login'))
         else:
             flash('Correo o contraseña incorrectos.')
