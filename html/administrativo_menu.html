@@ -10,113 +10,118 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <h2>Menú Administrativo</h2>
-
-    <a href="{{ url_for('auth.login') }}" class="back-button">Atras</a>
+    <div class="top-bar">
+        <a href="{{ url_for('auth.login') }}" class="back-button">Cerrar sesión</a>
+        <div class="welcome-message">
+            Bienvenido {{ nombre }}
+        </div>
+    </div>
 
     <!-- Formulario para agregar un Instructor -->
-    <form action="{{ url_for('administrativo.alta_instructor') }}" method="POST">
-        <h3>Agregar Instructor</h3>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
-        <label for="ci">CI:</label>
-        <input type="text" id="ci" name="ci" required>
-        <button type="submit">Agregar Instructor</button>
-    </form>
+    <div style="margin-top: 80px;"></div>
+        <form action="{{ url_for('administrativo.alta_instructor') }}" method="POST">
+            <h3>Agregar Instructor</h3>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+            <label for="ci">CI:</label>
+            <input type="text" id="ci" name="ci" required>
+            <button type="submit">Agregar Instructor</button>
+        </form>
 
-    <!-- Formulario para eliminar un Instructor -->
-    <form action="{{ url_for('administrativo.baja_instructor') }}" method="POST">
-        <h3>Eliminar Instructor</h3>
-        <label for="ci">CI del Instructor:</label>
-        <input type="text" id="ci" name="ci" required>
-        <button type="submit">Eliminar Instructor</button>
-    </form>
+        <!-- Formulario para eliminar un Instructor -->
+        <form action="{{ url_for('administrativo.baja_instructor') }}" method="POST">
+            <h3>Eliminar Instructor</h3>
+            <label for="ci">CI del Instructor:</label>
+            <input type="text" id="ci" name="ci" required>
+            <button type="submit">Eliminar Instructor</button>
+        </form>
 
-    <!-- Formulario para modificar un Instructor -->
-    <form action="{{ url_for('administrativo.modificar_instructor') }}" method="POST">
-        <h3>Modificar Instructor</h3>
-        <label for="ci">CI del Instructor:</label>
-        <input type="text" id="ci" name="ci" required>
-        <label for="nombre">Nuevo Nombre:</label>
-        <input type="text" id="nombre" name="nombre">
-        <label for="apellido">Nuevo Apellido:</label>
-        <input type="text" id="apellido" name="apellido">
-        <button type="submit">Modificar Instructor</button>
-    </form>
+        <!-- Formulario para modificar un Instructor -->
+        <form action="{{ url_for('administrativo.modificar_instructor') }}" method="POST">
+            <h3>Modificar Instructor</h3>
+            <label for="ci">CI del Instructor:</label>
+            <input type="text" id="ci" name="ci" required>
+            <label for="nombre">Nuevo Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <label for="apellido">Nuevo Apellido:</label>
+            <input type="text" id="apellido" name="apellido">
+            <button type="submit">Modificar Instructor</button>
+        </form>
 
-    <!-- Formulario para agregar un Alumno -->
-    <form action="{{ url_for('administrativo.alta_alumno') }}" method="POST">
-        <h3>Agregar Alumno</h3>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
-        <label for="ci">CI:</label>
-        <input type="text" id="ci" name="ci" required>
-        <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-        <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" required>
-        <label for="correo">Correo:</label>
-        <input type="text" id="correo" name="correo" required>
-        <label for="telefono">Telefono:</label>
-        <input type="text" id="telefono" name="telefono" required>
-        <button type="submit">Agregar Alumno</button>
-    </form>
+        <!-- Formulario para agregar un Alumno -->
+        <form action="{{ url_for('administrativo.alta_alumno') }}" method="POST">
+            <h3>Agregar Alumno</h3>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+            <label for="ci">CI:</label>
+            <input type="text" id="ci" name="ci" required>
+            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required>
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required>
+            <label for="telefono">Telefono:</label>
+            <input type="text" id="telefono" name="telefono" required>
+            <button type="submit">Agregar Alumno</button>
+        </form>
 
-    <!-- Formulario para eliminar un Alumno -->
-    <form action="{{ url_for('administrativo.baja_alumno') }}" method="POST">
-        <h3>Eliminar Alumno</h3>
-        <label for="ci">CI del Alumno:</label>
-        <input type="text" id="ci" name="ci" required>
-        <button type="submit">Eliminar Alumno</button>
-    </form>
+        <!-- Formulario para eliminar un Alumno -->
+        <form action="{{ url_for('administrativo.baja_alumno') }}" method="POST">
+            <h3>Eliminar Alumno</h3>
+            <label for="ci">CI del Alumno:</label>
+            <input type="text" id="ci" name="ci" required>
+            <button type="submit">Eliminar Alumno</button>
+        </form>
 
-    <form action="{{ url_for('administrativo.modificar_alumno') }}" method="POST">
-        <h3>Modificar Alumno</h3>
-        <label for="ci">CI del Alumno:</label>
-        <input type="text" id="ci" name="ci" required>
-        <label for="nombre">Nuevo Nombre:</label>
-        <input type="text" id="nombre" name="nombre">
-        <label for="apellido">Nuevo Apellido:</label>
-        <input type="text" id="apellido" name="apellido">
-        <label for="fecha_nacimiento">Fecha de nacimiento:</label>
-        <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" required>
-        <label for="correo">Correo:</label>
-        <input type="text" id="correo" name="correo" required>
-        <label for="telefono">Telefono:</label>
-        <input type="text" id="telefono" name="telefono" required>
-        <button type="submit">Modificar Alumno</button>
-    </form>
+        <form action="{{ url_for('administrativo.modificar_alumno') }}" method="POST">
+            <h3>Modificar Alumno</h3>
+            <label for="ci">CI del Alumno:</label>
+            <input type="text" id="ci" name="ci" required>
+            <label for="nombre">Nuevo Nombre:</label>
+            <input type="text" id="nombre" name="nombre">
+            <label for="apellido">Nuevo Apellido:</label>
+            <input type="text" id="apellido" name="apellido">
+            <label for="fecha_nacimiento">Fecha de nacimiento:</label>
+            <input type="text" id="fecha_nacimiento" name="fecha_nacimiento" required>
+            <label for="correo">Correo:</label>
+            <input type="text" id="correo" name="correo" required>
+            <label for="telefono">Telefono:</label>
+            <input type="text" id="telefono" name="telefono" required>
+            <button type="submit">Modificar Alumno</button>
+        </form>
 
-    <!-- Formulario para modificar una Actividad -->
-    <form action="{{ url_for('administrativo.modificar_actividad') }}" method="POST">
-        <h3>Modificar Actividad</h3>
-        <label for="actividad_id">ID de la Actividad:</label>
-        <input type="text" id="actividad_id" name="actividad_id" required>
-        <label for="descripcion">Nueva descripcion:</label>
-        <input type="text" id="descripcion" name="descripcion">
-        <label for="costo">Nuevo costo:</label>
-        <input type="number" id="costo" name="costo">
-        <button type="submit">Modificar Actividad</button>
-    </form>
+        <!-- Formulario para modificar una Actividad -->
+        <form action="{{ url_for('administrativo.modificar_actividad') }}" method="POST">
+            <h3>Modificar Actividad</h3>
+            <label for="actividad_id">ID de la Actividad:</label>
+            <input type="text" id="actividad_id" name="actividad_id" required>
+            <label for="descripcion">Nueva descripcion:</label>
+            <input type="text" id="descripcion" name="descripcion">
+            <label for="costo">Nuevo costo:</label>
+            <input type="number" id="costo" name="costo">
+            <button type="submit">Modificar Actividad</button>
+        </form>
 
-    <ul>
-        <li><a href="{{ url_for('clase.alta_clase_form') }}">Dar de Alta una Clase</a></li>
-        <li><a href="{{ url_for('turno.alta_turno_form') }}">Dar de Alta un Turno</a></li>
-        <li><a href="{{ url_for('turno.listar_turnos') }}">Ver Turnos</a></li>
-    </ul>
+        <ul>
+            <li><a href="{{ url_for('clase.alta_clase_form') }}">Dar de Alta una Clase</a></li>
+            <li><a href="{{ url_for('turno.alta_turno_form') }}">Dar de Alta un Turno</a></li>
+            <li><a href="{{ url_for('turno.listar_turnos') }}">Ver Turnos</a></li>
+        </ul>
 
 
-    <!-- Mensajes flash -->
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="alert alert-info mt-3">
-                {% for message in messages %}
-                    <div>{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
+        <!-- Mensajes flash -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="alert alert-info mt-3">
+                    {% for message in messages %}
+                        <div>{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+    </div>   
 </body>
 </html>

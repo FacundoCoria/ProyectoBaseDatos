@@ -137,14 +137,36 @@ def login():
         contraseña = request.form.get('contraseña')
         ci, rol = authenticate_user(correo, contraseña)
         if ci:
-            flash('Inicio de sesión exitoso.')
-            if rol == "instructor":
-                return redirect(url_for('instructor.instructor_menu'))  # Redirige al menú del instructor
-            elif rol == "estudiante":
-                return redirect(url_for('estudiante.estudiante_menu'))  # Redirige al menú del estudiante
-            elif rol == "administrador":
-                return redirect(url_for('administrativo.administrativo_menu'))  # Redirige al menú del administrador
+            connection = connect_to_database()
+            try:
+                cursor = connection.cursor()
+                nombre = "Admin" 
+                
+                if rol == "instructor":
+                    cursor.execute("SELECT nombre FROM instructores WHERE ci = %s", (ci,))
+                    nombre_result = cursor.fetchone()
+                    nombre = nombre_result[0] if nombre_result else nombre
+                elif rol == "estudiante":
+                    cursor.execute("SELECT nombre FROM alumnos WHERE ci = %s", (ci,))
+                    nombre_result = cursor.fetchone()
+                    nombre = nombre_result[0] if nombre_result else nombre
+
+                cursor.close()
+                connection.close()
+
+                flash('Inicio de sesión exitoso.')
+                if rol == "instructor":
+                    return render_template('instructor_menu.html', nombre=nombre)
+                elif rol == "estudiante":
+                    return render_template('estudiante_menu.html', nombre=nombre)
+                elif rol == "administrador":
+                    return render_template('administrativo_menu.html', nombre=nombre)
+            except Error as e:
+                print(f"Error al obtener el nombre: {e}")
+                flash('Error al iniciar sesión.')
+                return redirect(url_for('auth.login'))
         else:
             flash('Correo o contraseña incorrectos.')
 
     return render_template('login.html')
+

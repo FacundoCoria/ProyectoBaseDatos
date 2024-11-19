@@ -12,7 +12,9 @@
 <body>
     <div class="top-bar">
         <a href="{{ url_for('auth.login') }}" class="back-button">Cerrar sesión</a>
-        <div class="welcome-message">Bienvenido instructor</div>
+        <div class="welcome-message">
+            Bienvenido {{ nombre }}
+        </div>
     </div>
 
     <div style="margin-top: 80px;">
