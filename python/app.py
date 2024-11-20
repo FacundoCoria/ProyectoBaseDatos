@@ -3,6 +3,7 @@ from auth import auth_blueprint  # Importa el blueprint
 from instructor import instructor_blueprint
 from clases import clase_blueprint
 from turno import turno_blueprint
+from turnoNoAdmin import turnoNoAdmin_blueprint
 from estudiante import estudiante_blueprint
 from equipamiento import equipamiento_blueprint
 from administrativo import administrativo_blueprint
@@ -22,6 +23,7 @@ app.register_blueprint(instructor_blueprint)
 app.register_blueprint(estudiante_blueprint)
 app.register_blueprint(clase_blueprint)
 app.register_blueprint(turno_blueprint)
+app.register_blueprint(turnoNoAdmin_blueprint)
 app.register_blueprint(equipamiento_blueprint, url_prefix='/equipamiento')
 app.register_blueprint(administrativo_blueprint)
 
