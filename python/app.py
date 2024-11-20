@@ -6,6 +6,8 @@ from turno import turno_blueprint
 from estudiante import estudiante_blueprint
 from equipamiento import equipamiento_blueprint
 from administrativo import administrativo_blueprint
+from clasesNoAdmin import clasesNoAdmin_blueprint;
+from turnosNoAdmin import turnosNoAdmin_blueprint;
 
 
 app = Flask(
@@ -24,7 +26,8 @@ app.register_blueprint(clase_blueprint)
 app.register_blueprint(turno_blueprint)
 app.register_blueprint(equipamiento_blueprint, url_prefix='/equipamiento')
 app.register_blueprint(administrativo_blueprint)
-
+app.register_blueprint(clasesNoAdmin_blueprint)
+app.register_blueprint(turnosNoAdmin_blueprint)
 
 # Redirige la ruta principal a la página de login del blueprint `auth`
 @app.route('/')
@@ -33,3 +36,4 @@ def home():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
