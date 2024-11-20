@@ -139,10 +139,8 @@ def login():
         if ci:
             flash('Inicio de sesión exitoso.')
             if rol == "instructor":
-                session['user_type'] = 'instructor'
                 return redirect(url_for('instructor.instructor_menu'))  # Redirige al menú del instructor
             elif rol == "estudiante":
-                session['user_type'] = 'estudiante'
                 return redirect(url_for('estudiante.estudiante_menu'))  # Redirige al menú del estudiante
             elif rol == "administrador":
                 return redirect(url_for('administrativo.administrativo_menu'))  # Redirige al menú del administrador

@@ -12,11 +12,12 @@
 <body>
     <div class="top-bar">
         <a href="{{ url_for('auth.login') }}" class="back-button">Cerrar sesión</a>
-        <div class="welcome-message">Bienvenido instructor</div>
+        <div class="welcome-message">
+            Bienvenido {{ nombre }}
+        </div>
     </div>
 
     <div style="margin-top: 80px;">
-        <h2>Menú del Instructor</h2>
         <form action="{{ url_for('instructor.eliminar_instructor_route') }}" method="POST">
             <h3>Eliminar Instructor</h3>
             <label for="ci">Cédula:</label>
