@@ -155,10 +155,13 @@ def login():
                 connection.close()
 
                 if rol == "instructor":
+                    session['userType'] = 'instructor'
                     return render_template('instructor_menu.html', nombre=nombre)
                 elif rol == "estudiante":
+                    session['userType'] = 'estudiante'
                     return render_template('estudiante_menu.html', nombre=nombre)
                 elif rol == "administrador":
+                    session['userType'] = 'administrador'
                     return render_template('administrativo_menu.html', nombre=nombre)
             except Error as e:
                 print(f"Error al obtener el nombre: {e}")
