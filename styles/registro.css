@@ -58,7 +58,7 @@ label {
     text-align: left;
 }
 
-input[type="email"], input[type="password"], input[type="text"] {
+input[type="email"], input[type="password"], input[type="text"], [type="date"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0 20px;
@@ -68,7 +68,7 @@ input[type="email"], input[type="password"], input[type="text"] {
     font-size: 16px;
 }
 
-input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus {
+input[type="email"]:focus, input[type="password"]:focus, input[type="text"]:focus, [type="date"]:focus {
     border-color: #363784;
     background-color: #ffffff;
     outline: none;

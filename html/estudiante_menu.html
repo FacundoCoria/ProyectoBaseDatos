@@ -20,6 +20,12 @@
 
     <!-- Formulario para eliminar estudiante -->
     <div style="margin-top: 80px;">
+        <!-- Enlace para ver clases disponibles -->
+        <a href="{{ url_for('clasesNoAdmin.mostrar_clases') }}" class="button">Ver clases disponibles</a>
+
+        <!-- Botón para abrir el modal de adquisición de equipamiento -->
+        <button type="button" class="button" data-toggle="modal" data-target="#equipamientoModal">Adquirir Equipamiento</button>
+
         <form action="" method="POST">
             <h3>Eliminar Estudiante</h3>
             <label for="ci">Cédula:</label>
@@ -33,9 +39,6 @@
             <button type="submit">Eliminar</button>
         </form>
 
-        <!-- Enlace para ver clases disponibles -->
-        <p><li><a href="{{ url_for('clasesNoAdmin.mostrar_clases') }}">Ver clases disponibles</a></li></p>
-
         <!-- Formulario para unirse a una clase -->
         <form action="" method="POST">
             <h3>Unirse a una Clase</h3>
@@ -43,9 +46,6 @@
             <input type="text" id="id_clase" name="id_clase" required>
             <button type="submit">Unirse</button>
         </form>
-
-        <!-- Botón para abrir el modal de adquisición de equipamiento -->
-        <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#equipamientoModal">Adquirir Equipamiento</button>
 
         <!-- Modal para adquirir equipamiento -->
         <div class="modal fade" id="equipamientoModal" tabindex="-1" aria-labelledby="equipamientoModalLabel" aria-hidden="true">
