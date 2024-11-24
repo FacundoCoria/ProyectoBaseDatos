@@ -4,6 +4,97 @@ from mysql.connector import Error
 
 auth_blueprint = Blueprint('auth', __name__)
 
+#Unirse a una clase
+@auth_blueprint.route('/unirseClase', methods=['POST'])
+def obtener_datos_y_unirse_clase():
+    id_clase = request.form.get('id_clase')
+    ci_alumno = session.get('ci', '00000000')
+    print(id_clase, ci_alumno)
+
+    if not id_clase or not ci_alumno:
+        flash("Faltan datos para unirse a la clase.")
+        return redirect(url_for('estudiante.estudiante_menu'))  
+
+    connection = connect_to_database()
+    if connection is None:
+        flash("Error al conectar con la base de datos.")
+        return redirect(url_for('estudiante.estudiante_menu'))
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+        query = """
+            SELECT 
+                equipamiento.id AS id_equipamiento,
+                equipamiento.costo AS costo_adicional
+            FROM 
+                clase
+            JOIN 
+                actividades ON clase.id_actividad = actividades.id
+            JOIN 
+                equipamiento ON equipamiento.id_actividad = actividades.id
+            WHERE 
+                clase.id = %s;
+        """
+        cursor.execute(query, (id_clase,))
+        equipamientos = cursor.fetchall()
+
+        if not equipamientos:
+            flash("No se encontraron equipamientos para la clase.")
+            return redirect(url_for('estudiante.estudiante_menu'))
+
+        for equipamiento in equipamientos:
+            id_equipamiento = equipamiento['id_equipamiento']
+            costo_adicional = equipamiento['costo_adicional']
+
+            success = unirse_clase_alumno(id_clase, ci_alumno, id_equipamiento, costo_adicional)
+            if not success:
+                return redirect(url_for('estudiante.estudiante_menu'))
+
+        flash("Te has unido a la clase exitosamente.")
+        return redirect(url_for('estudiante.estudiante_menu'))  
+
+    except Exception as e:
+        print(f"Error al obtener datos: {e}")
+        flash("Ocurrió un error al procesar la solicitud.")
+        return redirect(url_for('estudiante.estudiante_menu'))
+
+    finally:
+        cursor.close()
+        connection.close()
+
+
+
+# Función para unirse a una clase
+def unirse_clase_alumno(id_clase, ci_alumno, id_equipamiento, costo_adicional):
+    connection = connect_to_database()
+    if connection is None:
+        return False   
+    try:
+        cursor = connection.cursor()
+        query_check = """
+            SELECT COUNT(*) 
+            FROM alumno_clase 
+            WHERE id_clase = %s AND ci_alumno = %s AND id_equipamiento = %s
+        """
+        cursor.execute(query_check, (id_clase, ci_alumno, id_equipamiento))
+        result = cursor.fetchone()
+        
+        if result[0] > 0:
+            flash(f"Ya estas registrado a esta clase")
+            return False
+        
+        query = "INSERT INTO alumno_clase (id_clase, ci_alumno, id_equipamiento, costo_adicional) VALUES (%s, %s, %s, %s)"
+        cursor.execute(query, (id_clase, ci_alumno, id_equipamiento, costo_adicional))
+        connection.commit()
+        print("Alumno unido exitosamente.")
+        return True
+    except Error as e:
+        print(f"Error al unir el usuario: {e}")
+        return False
+    finally:
+        cursor.close()
+        connection.close()   
+
 # Función para registrar a un usuario con un correo
 def register_user(correo, contraseña, rol, ci):
     connection = connect_to_database()
@@ -159,6 +250,7 @@ def login():
                     return render_template('instructor_menu.html', nombre=nombre)
                 elif rol == "estudiante":
                     session['userType'] = 'estudiante'
+                    session['ci'] = ci
                     return render_template('estudiante_menu.html', nombre=nombre)
                 elif rol == "administrador":
                     session['userType'] = 'administrador'
