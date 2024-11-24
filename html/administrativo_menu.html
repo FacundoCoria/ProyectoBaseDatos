@@ -51,6 +51,14 @@
                                                 <label for="ci">CI:</label>
                                                 <input type="text" class="form-control" id="ci" name="ci" required>
                                             </div>
+                                            <div class="form-group">
+                                                <label for="correo">Correo:</label>
+                                                <input type="email" class="form-control" id="correo" name="correo" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="contraseña">Contraseña:</label>
+                                                <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+                                            </div>
                                             <button type="submit" class="btn hola text-white">Agregar Instructor</button>
                                         </form>
                                     </div>
@@ -86,6 +94,14 @@
                                             <div class="form-group">
                                                 <label for="apellido">Nuevo Apellido:</label>
                                                 <input type="text" class="form-control" id="apellido" name="apellido" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="correo">Correo:</label>
+                                                <input type="email" class="form-control" id="correo" name="correo" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="contraseña">Contraseña:</label>
+                                                <input type="password" class="form-control" id="contraseña" name="contraseña" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Modificar Instructor</button>
                                         </form>
@@ -170,6 +186,10 @@
                                                 <input type="email" class="form-control" id="correo" name="correo" required>
                                             </div>
                                             <div class="form-group">
+                                                <label for="contraseña">Contraseña:</label>
+                                                <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="telefono">Teléfono:</label>
                                                 <input type="text" class="form-control" id="telefono" name="telefono" required>
                                             </div>
@@ -218,10 +238,14 @@
                                                 <input type="email" class="form-control" id="correo" name="correo" required>
                                             </div>
                                             <div class="form-group">
+                                                <label for="contraseña">Contraseña:</label>
+                                                <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+                                            </div>
+                                            <div class="form-group">
                                                 <label for="telefono">Teléfono:</label>
                                                 <input type="text" class="form-control" id="telefono" name="telefono" required>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Modificar Alumno></button>
+                                            <button type="submit" class="btn btn-primary">Modificar Alumno</button>
                                         </form>
                                     </div>
                                 </div>
@@ -291,8 +315,8 @@
                                                 <input type="text" class="form-control" id="descripcion" name="descripcion">
                                             </div>
                                             <div class="form-group">
-                                                <label for="fecha">Nueva Fecha:</label>
-                                                <input type="date" class="form-control" id="fecha" name="fecha">
+                                                <label for="costo">Nuevo Costo:</label>
+                                                <input type="number" class="form-control" id="costo" name="costo">
                                             </div>
                                             <button type="submit" class="btn btn-primary">Modificar Actividad</button>
                                         </form>
@@ -300,6 +324,53 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Modal Agregar Clase -->
+                        <button type="button" class="btn chau mb-3" data-toggle="modal" data-target="#claseModal">
+                            Clase
+                        </button>
+
+                        <div class="modal fade" id="claseModal" tabindex="-1" aria-labelledby="addClassLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addClassLabel">Agregar Clase</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Formulario para registrar una clase -->
+                                        <form action="{{ url_for('clase.alta_clase') }}" method="POST">
+                                            <div class="form-group">
+                                                <label for="ci_instructor">CI del Instructor:</label>
+                                                <input type="text" class="form-control" id="ci_instructor" name="ci_instructor" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="id_actividad">ID de la Actividad:</label>
+                                                <input type="text" class="form-control" id="id_actividad" name="id_actividad" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="id_turno">ID del Turno:</label>
+                                                <input type="text" class="form-control" id="id_turno" name="id_turno" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tipo_clase">Tipo de Clase:</label>
+                                                <select class="form-control" id="tipo_clase" name="tipo_clase" required>
+                                                    <option value="grupal">Grupal</option>
+                                                    <option value="individual">Individual</option>
+                                                </select>
+                                            </div>
+                                            <button type="submit" class="btn hola text-white">Registrar Clase</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <a href="{{ url_for('turno.listar_turnos') }}" class="button">Ver Turnos</a>
+
                     </div>
                 </div>
             </div>

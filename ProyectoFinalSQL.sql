@@ -94,7 +94,61 @@ INSERT INTO login(correo, contraseña, rol, ci) VALUES
 
 ALTER TABLE alumno_clase ADD COLUMN costo_adicional DECIMAL(10, 2) DEFAULT 0.0;
 
+ALTER TABLE alumno_clase ADD COLUMN id_turno INT;
+
+-- Llena la nueva columna id_turno con los valores existentes en clase
+UPDATE alumno_clase
+JOIN clase ON clase.id = alumno_clase.id_clase
+SET alumno_clase.id_turno = clase.id_turno;
+
+-- Establece una restricción de unicidad
+ALTER TABLE alumno_clase
+ADD CONSTRAINT unique_alumno_turno
+UNIQUE (ci_alumno, id_turno);
 
 Delete from instructores;
 Delete from login;
+Delete from alumnos;
 Delete from alumno_clase;
+Delete from clase;
+
+SELECT
+    a.descripcion AS actividad,
+    SUM(a.costo + e.costo) AS ingresos_totales
+FROM
+    actividades a
+JOIN
+    equipamiento e ON a.id = e.id_actividad
+GROUP BY
+    a.id
+ORDER BY
+    ingresos_totales DESC;
+
+SELECT
+    a.descripcion AS actividad,
+    COUNT(DISTINCT ac.ci_alumno) AS num_alumnos
+FROM
+    actividades a
+JOIN
+    clase c ON a.id = c.id_actividad
+JOIN
+    alumno_clase ac ON c.id = ac.id_clase
+GROUP BY
+    a.id
+ORDER BY
+    num_alumnos DESC;
+
+SELECT
+    t.hora_inicio,
+    t.hora_fin,
+    COUNT(c.id) AS num_clases_dictadas
+FROM
+    turnos t
+JOIN
+    clase c ON t.id = c.id_turno
+WHERE
+    c.dictada = TRUE  -- Solo las clases que han sido dictadas
+GROUP BY
+    t.id
+ORDER BY
+    num_clases_dictadas DESC;

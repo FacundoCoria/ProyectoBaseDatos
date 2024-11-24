@@ -16,11 +16,12 @@ def registrar_alumno_clase_route():
         data = request.form
         id_clase = data.get('id_clase')
         ci_alumno = data.get('ci_alumno')
+        id_turno = data.get('id_turno')  # Obtener el valor de id_turno
         id_equipamiento = data.get('id_equipamiento', None)
         es_alquilado = 'es_alquilado' in data
 
-        if not id_clase or not ci_alumno:
-            flash("Debe proporcionar id_clase y ci_alumno.", "error")
+        if not id_clase or not ci_alumno or not id_turno:  # Validar que el id_turno también esté presente
+            flash("Debe proporcionar id_clase, ci_alumno y id_turno.", "error")
             return redirect(url_for('equipamiento.registrar_alumno_clase_route'))
 
         try:
@@ -35,12 +36,12 @@ def registrar_alumno_clase_route():
                 if resultado:
                     costo_alquiler = resultado[0]
 
-            # Insertar el registro en la tabla alumno_clase
+            # Insertar el registro en la tabla alumno_clase, incluyendo id_turno
             query = """
-                INSERT INTO alumno_clase (id_clase, ci_alumno, id_equipamiento, costo_adicional)
-                VALUES (%s, %s, %s, %s)
+                INSERT INTO alumno_clase (id_clase, ci_alumno, id_turno, id_equipamiento, costo_adicional)
+                VALUES (%s, %s, %s, %s, %s)
             """
-            cursor.execute(query, (id_clase, ci_alumno, id_equipamiento, costo_alquiler if es_alquilado else 0.0))
+            cursor.execute(query, (id_clase, ci_alumno, id_turno, id_equipamiento, costo_alquiler if es_alquilado else 0.0))
             connection.commit()
             flash("Alumno registrado exitosamente en la clase.", "success")
         except Error as e:
@@ -65,14 +66,18 @@ def registrar_alumno_clase_route():
         # Obtener los equipamientos disponibles
         cursor.execute("SELECT id, descripcion FROM equipamiento")
         equipamientos = cursor.fetchall()
+
+        # Obtener los turnos disponibles
+        cursor.execute("SELECT id, descripcion FROM turno")
+        turnos = cursor.fetchall()  # Asumiendo que hay una tabla 'turno'
     except Error as e:
         flash(f"Error al obtener datos de la base de datos: {e}", "error")
-        alumnos, clases, equipamientos = [], [], []
+        alumnos, clases, equipamientos, turnos = [], [], [], []
     finally:
         cursor.close()
         connection.close()
 
-    return render_template('registrar_alumno_clase.html', alumnos=alumnos, clases=clases, equipamientos=equipamientos)
+    return render_template('registrar_alumno_clase.html', alumnos=alumnos, clases=clases, equipamientos=equipamientos, turnos=turnos)
 
 
 @equipamiento_blueprint.route('/equipamiento/adquirir', methods=['POST'])

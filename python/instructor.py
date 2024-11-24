@@ -5,10 +5,6 @@ from mysql.connector import Error
 # Crea el blueprint
 instructor_blueprint = Blueprint('instructor', __name__)
 
-def validar_cedula(ci):
-    """ Valida que la cédula tenga exactamente 8 dígitos y sea numérica. """
-    return len(ci) == 8 and ci.isdigit()
-
 def eliminar_instructor(ci, nombre, apellido):
     connection = connect_to_database()
     if connection is None:
@@ -31,6 +27,7 @@ def eliminar_instructor(ci, nombre, apellido):
 @instructor_blueprint.route('/instructor/menu', methods=['GET'])
 def instructor_menu():
     return render_template('instructor_menu.html')
+
 # Ruta para eliminar instructor
 @instructor_blueprint.route('/instructor/eliminar', methods=['POST'])
 def eliminar_instructor_route():

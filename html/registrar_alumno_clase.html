@@ -11,21 +11,30 @@
         <label for="ci_alumno">CI Alumno:</label>
         <select name="ci_alumno" required>
             {% for alumno in alumnos %}
-                <option value="{{ alumno.ci }}">{{ alumno.nombre }}</option>
+                <option value="{{ alumno[0] }}">{{ alumno[1] }}</option>
             {% endfor %}
         </select><br><br>
 
         <label for="id_clase">Clase:</label>
         <select name="id_clase" required>
             {% for clase in clases %}
-                <option value="{{ clase.id }}">{{ clase.nombre }}</option>
+                <option value="{{ clase[0] }}">{{ clase[1] }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="id_turno">Turno:</label>
+        <select name="id_turno" required>
+            {% for turno in turnos %}
+                <option value="{{ turno[0] }}">{{ turno[1] }}</option>
             {% endfor %}
         </select><br><br>
 
         <label for="id_equipamiento">Equipamiento:</label>
         <select name="id_equipamiento" required>
             {% for equipamiento in equipamientos %}
-                <option value="{{ equipamiento.id }}">{{ equipamiento.nombre }}</option>
+                <option value="{{ equipamiento[0] }}">
+                    {{ equipamiento[1] }} (Costo: {{ equipamiento[2] }} USD)
+                </option>
             {% endfor %}
         </select><br><br>
 

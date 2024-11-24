@@ -4,6 +4,10 @@ from mysql.connector import Error
 
 auth_blueprint = Blueprint('auth', __name__)
 
+def validar_cedula(ci):
+    """ Valida que la cédula tenga exactamente 8 dígitos y sea numérica. """
+    return len(ci) == 8 and ci.isdigit()
+
 #Unirse a una clase
 @auth_blueprint.route('/unirseClase', methods=['POST'])
 def obtener_datos_y_unirse_clase():
@@ -183,6 +187,11 @@ def registerInstructor():
         apellido = request.form.get('apellido')
         rol = "instructor"  # Define el rol aquí
 
+        if not validar_cedula(ci):
+            flash('La cédula debe tener exactamente 8 dígitos numéricos.')
+            return render_template('registerInstructor.html')
+
+
         # Primero registra el usuario en la tabla login
         if register_user(correo, contraseña, rol, ci):
             # Luego registra los datos específicos en la tabla instructores
@@ -207,6 +216,10 @@ def registerEstudiante():
         fecha_nacimiento = request.form.get('fecha_nacimiento')
         telefono = request.form.get('telefono')
         rol = "estudiante"  # Define el rol aquí
+
+        if not validar_cedula(ci):
+            flash('La cédula debe tener exactamente 8 dígitos numéricos.')
+            return render_template('registerEstudiante.html')
 
         # Primero registra el usuario en la tabla login
         if register_user(correo, contraseña, rol, ci):

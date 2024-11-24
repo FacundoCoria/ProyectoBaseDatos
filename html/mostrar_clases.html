@@ -21,10 +21,12 @@
         </tr>
         {% endfor %}
     </table>
-    {% if user_type == 'instructor' %}
-    <a href="{{ url_for('instructor.instructor_menu') }}">Volver al menú</a>
+
+    <!-- Mostrar el enlace adecuado según el rol -->
+    {% if rol == 'instructor' %}
+        <a href="{{ url_for('instructor.instructor_menu') }}">Volver al menú de Instructor</a>
     {% else %}
-    <a href="{{ url_for('estudiante.estudiante_menu') }}">Volver al menú</a>
+        <a href="{{ url_for('estudiante.estudiante_menu') }}">Volver al menú de Estudiante</a>
     {% endif %}
 </body>
 </html>
