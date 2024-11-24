@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Clases disponibles</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mostrarClases.css') }}">
 </head>
 <body>
-    <h2>Clases:</h2>
+    <h2>CLASES</h2>
     <table>
         <tr>
             <th>Actividad </th>
             <th>Costo </th>
-            <th>Ver horarios </th>
+            <th>Horarios </th>
         </tr>
         {% for clase in clases %}
         <tr>
             <td>{{ clase[1] }}</td>
             <td>{{ clase[2] }}</td>
-            <td>{<a href="{{ url_for('turnosNoAdmin.mostrar_turnos', id=clase[0]) }}">Ver horarios</a>}</td>
+            <td><a href="{{ url_for('turnosNoAdmin.mostrar_turnos', id=clase[0]) }}">Ver horarios</a></td>
         </tr>
         {% endfor %}
     </table>
     {% if user_type == 'instructor' %}
-    <a href="{{ url_for('instructor.instructor_menu') }}">Volver al Menú del Instructor</a>
+    <a href="{{ url_for('instructor.instructor_menu') }}">Volver al menú</a>
     {% else %}
-    <a href="{{ url_for('estudiante.estudiante_menu') }}">Volver al Menú del Estudiante</a>
+    <a href="{{ url_for('estudiante.estudiante_menu') }}">Volver al menú</a>
     {% endif %}
 </body>
 </html>

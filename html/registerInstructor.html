@@ -9,6 +9,17 @@
 <body>
     <a href="{{ url_for('auth.login') }}" class="back-button">Atras</a>
     <h2>Registro</h2>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <p class="flash">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <form action="{{ url_for('auth.registerInstructor') }}" method="POST">
 
         <label for="correo">Correo:</label>
